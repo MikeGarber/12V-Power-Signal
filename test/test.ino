@@ -12,6 +12,8 @@ HandleSerialParams paramHandlr(6);
 #define pin 10
 int tsateRising=0;
 int tsateFalling=0;
+char r;
+
 void setup() {
 	Serial.begin(115200);
 
@@ -27,9 +29,9 @@ void setup() {
 	Serial.print("currDataSize-"); Serial.println(currDataSize);
 
 	//pinMode(pin, OUTPUT);
-	//paramHandlr.AddParam("RisingEdge Tristate(0 ...)", 'r', &tsateRising, HandleSerialParams::eParamType::pInt);
+	paramHandlr.AddParam("Test char r ", 'r', &r, HandleSerialParams::eParamType::pChar);
 	//paramHandlr.AddParam("FallingEdge Tristate(0 ...)", 'f', &tsateFalling, HandleSerialParams::eParamType::pInt); 
-	//paramHandlr.DumpVars();
+	paramHandlr.DumpVars();
 
 
 	//		pinMode(pin, INPUT);
@@ -39,8 +41,8 @@ void setup() {
 bool state = false;
 void loop() {
 
-	//delay(2);
-	//paramHandlr.CheckAndHandleSerial();
+	delay(2);
+	paramHandlr.CheckAndHandleSerial();
 
 	//if ( (tsateRising>0  && (state==0)) ||
 	//     (tsateFalling>0 && (state!=0)) )

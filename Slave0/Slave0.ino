@@ -5,7 +5,7 @@
 
 SoftwareSerial  * mySerial;
 
-char myID='a';
+char myID='b';
 int int2=0;
 
 #include "pSSerial.h"
@@ -26,7 +26,6 @@ void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
 	
 	paramHandlr.AddParam("myID('a'thru'z')", 'I', &myID, HandleSerialParams::eParamType::pChar);
-//	paramHandlr.AddParam("Int2(0 ...)", 'F', &int2, HandleSerialParams::eParamType::pInt); 
 	paramHandlr.DumpVars();
 }
 
@@ -38,17 +37,20 @@ void loop() {
 	enumPacktConditition res = HandleSSerial();
 	if (res == eForMeGood)
 	{
-		Serial.println("----");
 		delay(5);		//let master settle, goto tristate
+//		Serial.print("receivedSChars="); Serial.println(receivedSChars); 
 		digitalWrite(DBUG_PIN, LOW);
 		switch (receivedSChars[2])		//func
 		{
 			case '1':
 				sendReply(ACK, NULL, 0);
 				break;
+			case '2':
+				sendReply(ACK, "Hello", 5);
+				break;
 			default:
-				char * data = {NAKNOFUNCT};
-				sendReply(NAK, NAKNOFUNCT, sizeof(data));
+				char data[] = NAKNOFUNCT;
+				sendReply(NAK, NAKNOFUNCT, strlen(data));
 		}
 		digitalWrite(DBUG_PIN, HIGH);
 	}

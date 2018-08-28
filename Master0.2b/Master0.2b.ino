@@ -5,7 +5,6 @@
 
 /*typedef */enum BussState {ePower, eListen} state;
 
-
 void TPinMode() //TRUE
 {
 	if (state==ePower){
@@ -17,7 +16,7 @@ void TPinMode() //TRUE
 }
 SoftwareSerial  * mySerial;
 const char myID='~';
-char func = '0';
+char func = '1';
 char  slaveID='b';
 
 #include "pSSerial.h"
@@ -34,8 +33,6 @@ void setup() {
 	mySerial->begin(SOFTWAREBAUD);		// set the data rate for the SoftwareSerial port
 
 	pinMode(DBUG_PIN, OUTPUT);
-
-	//??TPinMode(ePower);		//back to being a power source
 	pinMode(LED_BUILTIN, OUTPUT);
 	
 	paramHandlr.AddParam("func char (0 is none)", 'F', &func, HandleSerialParams::eParamType::pChar);
@@ -50,17 +47,17 @@ void loop() {
 	delay(1);
 	paramHandlr.CheckAndHandleSerial();
 	enumPacktConditition res = HandleSSerial();
-	if (res == eForMeGood)
-	{						
+	if (res == eForMeGood)		//reply!
+	{
+		delay(5);
 		state = ePower; TPinMode();		//back to being a power source
 	}
 
-	if (millis() >= timeoutStarttime + WAITFORRESPONSE)
+	if (millis() >= TxTimeoutStarttime + WAITFORRESPONSE)
 	{
-//		TPinMode(ePower);		//	timeout .... back to being a power source
 		state = ePower; TPinMode();		//back to being a power source
 	}
-	if (millis() >= timeoutStarttime + REPEATTIME)
+	if (millis() >= TxTimeoutStarttime + REPEATTIME)
 	{
 		if (func != '0')
 		{
