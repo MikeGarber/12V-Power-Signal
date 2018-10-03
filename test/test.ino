@@ -1,76 +1,82 @@
-/*
- Name:		test.ino
- Created:	7/24/2018 4:12:47 PM
- Author:	TheDukeOfHighwayJ
+#pragma once
+//Analog channels (on the 4051)
+enum aChannels {aCharged_N=6, aCharged_P/*also Pwr*/=2, aCharging_N=3, aCharging_P=1, aUnderV=0, aUnused=4};
 
-******** Toggling a line with optional tristste time at the edges.
-*/
+/*#define aCharged_N	6
+#define aCharged_P	2		//also Pwr
+#define aCharging_N	3
+#define aCharging_P	1
+#define aUnderV		0	
+#define aUnused		4*/
 
-#include <HandleSerialParams.h>
-HandleSerialParams paramHandlr(6);
+#define ANA_SIZE 7
+int anaValues[ANA_SIZE]={0,0,0,0,0,0,0};
 
-#define pin 10
-int tsateRising=0;
-int tsateFalling=0;
-char r;
-
-void setup() {
-	Serial.begin(115200);
-
-	byte inp=78;
-	char ms = inp/10+0x30;
-	char ls = inp %10+0x30;
-	Serial.print("ms-"); ; Serial.println(ms);
-	Serial.print("ls-"); Serial.println(ls);
-
-	char * receivedSChars = {"34"};
-	int ndx=1;
-	byte currDataSize = (receivedSChars[ndx-1]-0x30)*10 + (receivedSChars[ndx]-0x30);
-	Serial.print("currDataSize-"); Serial.println(currDataSize);
-
-	//pinMode(pin, OUTPUT);
-	paramHandlr.AddParam("Test char r ", 'r', &r, HandleSerialParams::eParamType::pChar);
-	//paramHandlr.AddParam("FallingEdge Tristate(0 ...)", 'f', &tsateFalling, HandleSerialParams::eParamType::pInt); 
-	paramHandlr.DumpVars();
-
-
-	//		pinMode(pin, INPUT);
+#define anaPinA 0
+#define anaPinB 2
+#define anaPinC 14
+void anaPinSetup()
+{
+	pinMode(anaPinA, OUTPUT);
+	pinMode(anaPinB, OUTPUT);
+	pinMode(anaPinC, OUTPUT);
 }
 
-// the loop function runs over and over again until power down or reset
-bool state = false;
-void loop() {
+int readAnaValues()
+{
+	for (int i=0; i<ANA_SIZE; i++)
+	{
+	Serial.println();
+	for (int i=0; i<ANA_SIZE; i++)
+	{
+		Serial.print("#");
+		Serial.print(anaValues[i]);
 
-	delay(2);
-	paramHandlr.CheckAndHandleSerial();
+	}
+	Serial.println();
+		//digitalWrite(anaPinA, i & 0x01);
+		//digitalWrite(anaPinB, i & 0x02);
+		//digitalWrite(anaPinC, i & 0x04);
+		delay(1);
+		anaValues[i]=i+(int)millis() & 0x1f;//analogRead(A0);
+//		Serial.print("; "+anaValues[i]);
+			//Serial.print(i);
+			//Serial.print(" --> ");
+			//Serial.print(digitalRead(anaPinC));
+			//Serial.print(digitalRead(anaPinB));
+			//Serial.print(digitalRead(anaPinA));
+			//Serial.print(" -> ");
+			//Serial.println(anaValues[i]);
+	}
+}
 
-	//if ( (tsateRising>0  && (state==0)) ||
-	//     (tsateFalling>0 && (state!=0)) )
-	//static bool tst1=true;
-	//{
-	//	int t = tsateRising;
-	//	if (state==0)
-	//		t=tsateFalling;
-	//	//for (int i=0; i<t ; i++ )
-	//	//{
-	//	//	Serial.print("x");
-	//	//}
-	//	for (int i=0; i<t; i++ )
-	//	{
-	//		pinMode(pin, INPUT);
-	//	}
-	//	pinMode(pin, OUTPUT);
-	//}
 
-	//////pinMode(pin, INPUT);
-	//////pinMode(pin, INPUT);
-	//////pinMode(pin, INPUT);
-	//////pinMode(pin, INPUT);
-	////if (!state)
-	////{
-	////	pinMode(pin, INPUT);
-	////	pinMode(pin, OUTPUT);
-	////}
-	//digitalWrite(pin, state);
-	//state = !state;
+void handleADC() {
+	readAnaValues();
+	Serial.print("\n\n");
+	String adcValue = String(anaValues[0]);
+	for (int i = 1; i < ANA_SIZE; i++){
+		Serial.print(". "); Serial.print(anaValues[i]);
+		adcValue += " ";
+		adcValue += String(anaValues[i]);
+		Serial.print(adcValue);
+	}
+	Serial.println(adcValue);
+	//server.send(200, "text/plane", adcValue); //Send ADC value only to client ajax request
+}
+
+//==============================================================
+//                  SETUP
+//==============================================================
+void setup(void){
+  Serial.begin(115200);
+  Serial.println("\n\nAjaxMultpleParams.ino - debugtest");
+
+  handleADC();
+
+}
+//==============================================================
+//                     LOOP
+//==============================================================
+void loop(void){
 }
