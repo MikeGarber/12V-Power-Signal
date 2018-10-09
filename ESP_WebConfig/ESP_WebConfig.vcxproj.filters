@@ -54,5 +54,8 @@
     <ClInclude Include="Page_Style.css.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OTAsetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

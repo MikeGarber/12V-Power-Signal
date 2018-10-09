@@ -32,6 +32,7 @@
   */
 
 
+#include <ArduinoOTA.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
@@ -104,7 +105,7 @@ void setup ( void ) {
 	ConfigureWifi();
 	
 
-	server.on ( "/", processExample  );
+	server.on ( "/",  []() { Serial.println("admin.html"); server.send ( 200, "text/html", PAGE_AdminMainPage );   }  );//processExample  );
 	server.on ( "/admin/filldynamicdata", filldynamicdata );
 	
 	server.on ( "/favicon.ico",   []() { Serial.println("favicon.ico"); server.send ( 200, "text/html", "" );   }  );

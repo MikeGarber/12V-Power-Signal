@@ -1,6 +1,10 @@
+#include <ArduinoOTA.h>
+#include <ESP8266mDNS.h>
+
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include "OTAsetup.h"
 
 #include "index.h" //Our HTML webpage contents with javascripts
 #include "Analog.h"
@@ -29,11 +33,9 @@ void handleADC() {
 	readAnaValues();
 	String adcValue = String(anaValues[0]);
 	for (int i = 1; i < ANA_SIZE; i++){
-//		Serial.print(". "+anaValues[i]);
 		adcValue += " ";
 		adcValue += anaValues[i];
 	}
-	//	Serial.print("\n\n"); Serial.println(adcValue);
 	server.send(200, "text/plane", adcValue); //Send ADC value only to client ajax request
 }
 
@@ -68,11 +70,13 @@ void setup(void){
   server.on("/readADC", handleADC);
 
   server.begin();                  //Start server
+  OTAsetup();
   Serial.println("HTTP server started");
 }
 //==============================================================
 //                     LOOP
 //==============================================================
 void loop(void){
+	ArduinoOTA.handle();
   server.handleClient();          //Handle client requests
 }

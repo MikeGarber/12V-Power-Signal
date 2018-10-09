@@ -25,15 +25,22 @@ void anaPinSetup()
 int readAnaValues()
 {
 	int t1 = int(millis());
-Serial.print(t1);  Serial.print("   "); Serial.print(t1 & 0x1f); Serial.print(" -- ");
 	for (int i=0; i<ANA_SIZE; i++)
 	{
 		digitalWrite(anaPinA, i & 0x01);
 		digitalWrite(anaPinB, i & 0x02);
 		digitalWrite(anaPinC, i & 0x04);
 		delay(1);
-		anaValues[i]=(i*10)+ (t1 & 0xff);//analogRead(A0);
-		Serial.print("  ");  Serial.print(anaValues[i]);
+//		anaValues[i]=(i*10)+ (t1 & 0xff);//analogRead(A0)
+		int x = analogRead(A0);
+		anaValues[i]=analogRead(A0);
+
+		if (abs(x-anaValues[i]) > 5){
+			Serial.print("delta for chan "); Serial.print(i);
+			Serial.print(" = "); Serial.println(x-anaValues[i]);}
+
+//		Serial.print("  ");  Serial.print(anaValues[i]);
+
 			//Serial.print(i);
 			//Serial.print(" --> ");
 			//Serial.print(digitalRead(anaPinC));
@@ -43,4 +50,3 @@ Serial.print(t1);  Serial.print("   "); Serial.print(t1 & 0x1f); Serial.print(" 
 			//Serial.println(anaValues[i]);
 	}
 }
-

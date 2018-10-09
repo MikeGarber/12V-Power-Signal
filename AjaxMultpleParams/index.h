@@ -1,24 +1,71 @@
 const char MAIN_page[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+	float:left;
+	column-width: 100px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+</head>
 <body>
 <div id="demo">
-<h1>The Garberpark web page </h1>
+<h1>The GarberPark web page V1.1</h1>
 </div>
-<div>
 
-<p>Pwr&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span id="ADCValue6">x&nbsp; &nbsp; &nbsp; </span> 
- <br /> Charged_N is : <span id="ADCValue2">x</span></p>
-<p><br /> 
-  Charging_N is : <span id="ADCValue3">x</span> <br /> Charging_P is : <span id="ADCValue1">x</span></p>
-<p><br /> 
-  UnderV is : <span id="ADCValue0">x</span></p>
+<div class="row">
+  <div class="column">
+  	<strong>
+	Pwr:<br>
+	Charged_N<br>
+	<br>
+	Charging_P<br>
+	Charging_N<br>
+	<br>
+    UnderV:<br>
+	</strong>
+  </div>
+  <div class="column">
+    <span id="ADCValue6"></span><br>
+    <span id="ADCValue2"></span><br>
+	<br>
+    <span id="ADCValue1"></span><br>
+    <span id="ADCValue3"></span><br>
+    <br>
+    <span id="ADCValue0"></span>
+<!--    <br>Some text..-->
+  </div>
+  <div class="column">
+    <br>
+    <span id="ChargedLED"></span><br>
+	<br>
+	<br>
+	<br>
+    <span id="ChargingLED"></span><br>
+    <br>
+    <span id="UnderVLED"></span>
+<!--    <br>Some text..-->
+  </div>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+
+<p></p><p></p>
 <button onclick="location.href = '/gotoAux';" class="float-left submit-button" >Auxx</button>
-<script>
 
+<script>
 setInterval(function() {
   // Call a function repetatively with 2 Second interval
   getData();
