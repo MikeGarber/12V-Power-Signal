@@ -18,13 +18,13 @@ const char* password = "Spicey123";
 ESP8266WebServer server(80); //Server on port 80
 
 void handleRoot() {
-	Serial.println("** handleRoot ***");
+//	Serial.println("** handleRoot ***");
  String s = MAIN_page; //Read HTML contents
  server.send(200, "text/html", s); //Send web page
 }
 
 void handleAuxPage() {
-	Serial.println("** handleAux ***");
+//	Serial.println("** handleAux ***");
  String s = AUX_page; //Read HTML contents
  server.send(200, "text/html", s); //Send web page
 }
@@ -34,7 +34,7 @@ void handleADC() {
 	String adcValue = String(anaValues[0]);
 	for (int i = 1; i < ANA_SIZE; i++){
 		adcValue += " ";
-		adcValue += anaValues[i];
+		adcValue += (((float)anaValues[i])/10);
 	}
 	server.send(200, "text/plane", adcValue); //Send ADC value only to client ajax request
 }

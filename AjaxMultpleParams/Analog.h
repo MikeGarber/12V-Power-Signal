@@ -1,7 +1,7 @@
 #pragma once
+
 //Analog channels (on the 4051)
 enum aChannels {aCharged_N=6, aCharged_P/*also Pwr*/=2, aCharging_N=3, aCharging_P=1, aUnderV=0, aUnused=4};
-
 /*#define aCharged_N	6
 #define aCharged_P	2		//also Pwr
 #define aCharging_N	3

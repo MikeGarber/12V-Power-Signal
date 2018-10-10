@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AjaxMultpleParams.ino" />
+    <None Include="AtoD cal.ods" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="index.h">

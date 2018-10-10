@@ -24,7 +24,7 @@ const char MAIN_page[] PROGMEM = R"=====(
 </head>
 <body>
 <div id="demo">
-<h1>The GarberPark web page V1.1</h1>
+<h1>The GarberPark web page V2.0</h1>
 </div>
 
 <div class="row">
@@ -40,6 +40,15 @@ const char MAIN_page[] PROGMEM = R"=====(
 	</strong>
   </div>
   <div class="column">
+    <br>
+    <span id="LEDchgd"></span><br>
+	<br>
+    <span id="ADCValue1"></span><br>
+    <span id="CHGdelta"></span><br>
+    <br>
+    <span id="LEDunder"></span>
+  </div>
+  <div class="column">
     <span id="ADCValue6"></span><br>
     <span id="ADCValue2"></span><br>
 	<br>
@@ -47,7 +56,6 @@ const char MAIN_page[] PROGMEM = R"=====(
     <span id="ADCValue3"></span><br>
     <br>
     <span id="ADCValue0"></span>
-<!--    <br>Some text..-->
   </div>
   <div class="column">
     <br>

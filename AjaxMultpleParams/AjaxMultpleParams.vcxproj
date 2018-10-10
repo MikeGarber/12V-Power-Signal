@@ -84,6 +84,7 @@
     <None Include="AjaxMultpleParams.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="AtoD cal.ods" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Analog.h" />
