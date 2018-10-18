@@ -15,22 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Master1.0.ino" />
+    <None Include="Master0.2msgFormatting.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.Master1.0.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Analog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OTAsetup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainPage.h">
+    <ClInclude Include="__vm\.Master0.2msgFormatting.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

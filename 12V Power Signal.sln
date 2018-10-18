@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AjaxMultpleParams", "AjaxMu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master1.0", "Master1.0\Master1.0.vcxproj", "{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master0.2msgFormatting", "Master0.2msgFormatting\Master0.2msgFormatting.vcxproj", "{2114F1AA-CF8C-4B66-9B07-C28490611246}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -62,6 +64,10 @@ Global
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Debug|x86.Build.0 = Debug|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Release|x86.ActiveCfg = Release|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Release|x86.Build.0 = Release|Win32
+		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Debug|x86.ActiveCfg = Debug|Win32
+		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Debug|x86.Build.0 = Debug|Win32
+		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Release|x86.ActiveCfg = Release|Win32
+		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

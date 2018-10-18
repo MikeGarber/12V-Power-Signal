@@ -9,7 +9,7 @@ const char IOpage[] PROGMEM = R"=====(
     box-sizing: border-box;
 }
 
-/* Create equal columns that floats next to each other */
+// Create equal columns that floats next to each other */
 .column {
 	float:left;
 	column-width: 70px;

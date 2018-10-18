@@ -12,7 +12,7 @@ enum aChannels {aCharged_PalsoPwr=6, aCharged_N=2, aCharging_N=3, aCharging_P=1,
 /* get here to send voltage strings according to (from the client code):
 	{"ADCValuePwr", "ADCValueChdN", "ADCValueChgngP", "ADCValueChgngN", "ADCValueUV", "ADCValueUnused"};	*/
 const aChannels anaInpSel[]= {aCharged_PalsoPwr, aCharged_N, aCharging_P, aCharging_N, aUnderV, aUnused};
-
+int             anaValues[/*SAME AS ABOVE, don' wanna dynam alloc*/6];
 int getIndexFromEnum(aChannels chan) {
 	int n =sizeof(anaInpSel) / sizeof(anaInpSel[0]);
 	for (int i = 0; i < n; i++)
@@ -23,7 +23,6 @@ int getIndexFromEnum(aChannels chan) {
 	return 99;
 }
 
-#define ANA_SIZE 7
 #define anaPinA 0
 #define anaPinB 2
 #define anaPinC 14
@@ -41,15 +40,17 @@ void SelectAnaChannel(int i)
 		digitalWrite(anaPinC, i & 0x04);
 		delay(1);
 }
-//int readAnaValues()
-//{
-//	for (int i=0; i<ANA_SIZE; i++)
-//	{
-//		SelectAnaChannel(i);
-//		analogRead(A0);
-//		anaValues[i]=analogRead(A0);
-//	}
-//}
+
+int readAnaValues()
+{
+	int n = sizeof(anaValues)/sizeof(anaValues[0]);
+	for (int i=0; i<n; i++)
+	{
+		SelectAnaChannel(i);
+		analogRead(A0);
+		anaValues[i]=analogRead(A0);
+	}
+}
 
 void handleADC() {
 	String payload;
