@@ -1,4 +1,5 @@
-const char MAIN_page[] PROGMEM = R"=====(
+#pragma once
+const char MAINpage[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +9,10 @@ const char MAIN_page[] PROGMEM = R"=====(
     box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+/* Create equal columns that floats next to each other */
 .column {
 	float:left;
-	column-width: 100px;
+	column-width: 50px;
 }
 
 /* Clear floats after the columns */
@@ -24,7 +25,7 @@ const char MAIN_page[] PROGMEM = R"=====(
 </head>
 <body>
 <div id="demo">
-<h1>The GarberPark web page V2.0</h1>
+<h1>The GarberPark web page <br> Master1.0.ino - v1.1</h1>
 </div>
 
 <div class="row">
@@ -71,11 +72,17 @@ const char MAIN_page[] PROGMEM = R"=====(
     <span id="UnderVLED">UnderVoltage</span>
   </div>
 </div>
+<br><br>
+Master Command: <input type="text" id="Command">
+<input type="button" onclick="sendCommand()" value="Send"><br>
+Slave Response:  <input type="text" id="Response">
+<br>
+<button onclick="location.href = '/gotoIO';" class="float-left submit-button" >IO</button>
 
-<p></p><p></p>
-<button onclick="location.href = '/gotoAux';" class="float-left submit-button" >Auxx</button>
 
 <script>
+function sendCommand(){
+}
 setInterval(function() {
   // Call a function repetatively with 2 Second interval
   getData();
@@ -85,8 +92,7 @@ function getData() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-	  var vals = this.responseText.split(" ");
-	  
+	  var vals = this.responseText.split(" ");	  
  	  var i;
 	  var valsLookup = ["ADCValuePwr","ADCValueChdN","ADCValueChgngP","ADCValueChgngN","ADCValueUV","ADCValueUnused"];
 	  <!-- validate length?? -->
@@ -121,21 +127,3 @@ function getData() {
 </body>
 </html>
 )=====";
-/*****************************************************************************/
-const char AUX_page[] PROGMEM = R"=====(
-<!DOCTYPE html>
-<html>
-<body>
-
-<div id="demoAux">
-<h1>Some Aux Page</h1>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><button onclick="location.href = '/';" class="float-left submit-button" >Home</button></p>
-</div>
-
-</script>
-</body>
-</html>
-)=====";
-

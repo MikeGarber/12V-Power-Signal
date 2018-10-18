@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="webserver2.ino" />
+    <None Include="PWM_ESP8266_Ajax_Demo.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.webserver2.vsarduino.h">
+    <ClInclude Include="__vm\.PWM_ESP8266_Ajax_Demo.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
