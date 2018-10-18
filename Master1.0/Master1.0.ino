@@ -30,7 +30,7 @@ ESP8266WebServer server(80); //Server on port 80
 #include "OTAsetup.h"
 #include "Analog.h"
 #include "MainPage.h"
-#include "index.h"
+//#include "index.h"
 
 #define LED 2  //On board LED
 
@@ -52,49 +52,24 @@ void handleIOPage() {
  server.send(200, "text/html", s); //Send web page
 }
 
-void handleAuxPage() {
-//	Serial.println("** handleAux ***");
- String s = AUX1_page; //Read HTML contents
- server.send(200, "text/html", s); //Send web page
-}
+//void handleAuxPage() {
+////	Serial.println("** handleAux ***");
+// String s = AUX1_page; //Read HTML contents
+// server.send(200, "text/html", s); //Send web page
+//}
 
 /* send voltage strings according to (from the client code):
 	{"ADCValuePwr", "ADCValueChdN", "ADCValueChgngP", "ADCValueChgngN", "ADCValueUV", "ADCValueUnused"..
 ...	and then ...
 	 "ChargedLED","ChargingLED","UnderVLED"
 */
-void handleADC() {
-	String payload;
-	int n = sizeof(anaInpSel)/sizeof(anaInpSel[0]);
-	float *vals = new float[n];
-	for (int i=0; i<n; i++)
-	{
-		SelectAnaChannel(anaInpSel[i]);
-		analogRead(A0);
 
-		vals[i] = (((float)analogRead(A0))/71.5);		//conv to volts
-		payload += vals[i];
-		payload += " ";
-	}
-	// "ChargedLED",
-	if (vals[getIndexFromEnum(aCharged_PalsoPwr)] - vals[getIndexFromEnum(aCharged_N)] > 2.0)
-		payload += "ON"; else payload += "OFF"; 
-	payload += " ";
-	
-	//"ChargingLED",
-	if (vals[getIndexFromEnum(aCharging_P)] - vals[getIndexFromEnum(aCharging_N)] > 2.0)
-		payload += "ON"; else payload += "OFF"; 
-	payload += " ";
-	
-	//"UnderVLED"
-	if (vals[getIndexFromEnum(aUnderV)] >.25)
-		payload += "ON"; else payload += "OFF"; 
-	payload += " ";
-////	Serial.println(payload);
-	server.send(200, "text/plane", payload); //Send ADC value only to client ajax request
-	delete vals;
+void handleCommand()
+{
+	String i = server.arg("msg"); 
+	server.send(200, "text/plane", "xxx"+i); //Send ADC value only to client ajax request
+
 }
-
 //==============================================================
 //                  SETUP
 //==============================================================
@@ -132,9 +107,10 @@ void setup() {
  
   server.on("/", handleRoot);      //Which routine to handle at root location. This is display page
   server.on("/gotoHome", handleRoot);      //Which routine to handle at root location. This is display page
-  server.on("/gotoAux", handleAuxPage);      //Which routine to handle at root location. This is display page
+  //server.on("/gotoAux", handleAuxPage);      //Which routine to handle at root location. This is display page
   server.on("/readADC", handleADC);
-  SetIOserverHandlers();
+  server.on("/sendCommand", handleCommand);
+  SetupIOserverHandlers();
 
   server.begin();                  //Start server
   OTAsetup();
@@ -147,14 +123,5 @@ void loop(void){
 	ArduinoOTA.handle();
 	server.handleClient();          //Handle client requests
 	paramHandlr.CheckAndHandleSerial();
-
-	for (int i = 0; i < sizeof(INPIndexes)/sizeof(INPIndexes[0]); i++)
-	{
-		if (inputForces[i] == 0)
-		{
-			int newI = !mcp.digitalRead(INPIndexes[i]);	//active low
-			if (newI != inputs[i])	
-				handleIStateChange(i, newI);
-		}
-	}
+	loopIO();
 }

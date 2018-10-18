@@ -22,11 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "webserverAjax1", "webserver
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AjaxMultpleParams", "AjaxMultpleParams\AjaxMultpleParams.vcxproj", "{69DF4240-DCDD-4A79-80F3-B5686F1EEBD1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP_WebConfig", "ESP_WebConfig\ESP_WebConfig.vcxproj", "{8E59E7B5-FFB0-4EDC-A6B4-615C0F001299}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master1.0", "Master1.0\Master1.0.vcxproj", "{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PWM_ESP8266_Ajax_Demo", "PWM_ESP8266_Ajax_Demo\PWM_ESP8266_Ajax_Demo.vcxproj", "{B7B928D0-88A1-481F-B6E3-7A6C87D153D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,18 +58,10 @@ Global
 		{69DF4240-DCDD-4A79-80F3-B5686F1EEBD1}.Debug|x86.Build.0 = Debug|Win32
 		{69DF4240-DCDD-4A79-80F3-B5686F1EEBD1}.Release|x86.ActiveCfg = Release|Win32
 		{69DF4240-DCDD-4A79-80F3-B5686F1EEBD1}.Release|x86.Build.0 = Release|Win32
-		{8E59E7B5-FFB0-4EDC-A6B4-615C0F001299}.Debug|x86.ActiveCfg = Debug|Win32
-		{8E59E7B5-FFB0-4EDC-A6B4-615C0F001299}.Debug|x86.Build.0 = Debug|Win32
-		{8E59E7B5-FFB0-4EDC-A6B4-615C0F001299}.Release|x86.ActiveCfg = Release|Win32
-		{8E59E7B5-FFB0-4EDC-A6B4-615C0F001299}.Release|x86.Build.0 = Release|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Debug|x86.ActiveCfg = Debug|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Debug|x86.Build.0 = Debug|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Release|x86.ActiveCfg = Release|Win32
 		{80E4D117-5CC2-4F05-9547-6AE3D6B1B996}.Release|x86.Build.0 = Release|Win32
-		{B7B928D0-88A1-481F-B6E3-7A6C87D153D1}.Debug|x86.ActiveCfg = Debug|Win32
-		{B7B928D0-88A1-481F-B6E3-7A6C87D153D1}.Debug|x86.Build.0 = Debug|Win32
-		{B7B928D0-88A1-481F-B6E3-7A6C87D153D1}.Release|x86.ActiveCfg = Release|Win32
-		{B7B928D0-88A1-481F-B6E3-7A6C87D153D1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

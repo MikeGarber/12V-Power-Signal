@@ -82,7 +82,20 @@ Slave Response:  <input type="text" id="Response">
 
 <script>
 function sendCommand(){
+	var txt = document.getElementById("Command").value;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	  var resp = this.responseText;
+	  document.getElementById("Response").value = resp;
+	}
+  };
+  xhttp.open("GET", "sendCommand?msg="+txt, true);
+  xhttp.send();
 }
+
+
 setInterval(function() {
   // Call a function repetatively with 2 Second interval
   getData();

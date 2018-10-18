@@ -50,3 +50,35 @@ void SelectAnaChannel(int i)
 //		anaValues[i]=analogRead(A0);
 //	}
 //}
+
+void handleADC() {
+	String payload;
+	int n = sizeof(anaInpSel)/sizeof(anaInpSel[0]);
+	float *vals = new float[n];
+	for (int i=0; i<n; i++)
+	{
+		SelectAnaChannel(anaInpSel[i]);
+		analogRead(A0);
+
+		vals[i] = (((float)analogRead(A0))/71.5);		//conv to volts
+		payload += vals[i];
+		payload += " ";
+	}
+	// "ChargedLED",
+	if (vals[getIndexFromEnum(aCharged_PalsoPwr)] - vals[getIndexFromEnum(aCharged_N)] > 2.0)
+		payload += "ON"; else payload += "OFF"; 
+	payload += " ";
+	
+	//"ChargingLED",
+	if (vals[getIndexFromEnum(aCharging_P)] - vals[getIndexFromEnum(aCharging_N)] > 2.0)
+		payload += "ON"; else payload += "OFF"; 
+	payload += " ";
+	
+	//"UnderVLED"
+	if (vals[getIndexFromEnum(aUnderV)] >.25)
+		payload += "ON"; else payload += "OFF"; 
+	payload += " ";
+////	Serial.println(payload);
+	server.send(200, "text/plane", payload); //Send ADC value only to client ajax request
+	delete vals;
+}
