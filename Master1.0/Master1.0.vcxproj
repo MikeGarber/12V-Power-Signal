@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Analog.h" />
+    <ClInclude Include="DebugPage.h" />
     <ClInclude Include="IO.h" />
     <ClInclude Include="MainPage.h" />
     <ClInclude Include="OTAsetup.h" />

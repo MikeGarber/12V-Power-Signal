@@ -13,12 +13,12 @@ void OTAsetup()
 	  });
 	  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
 	    int pct = progress / (total / 100);
-		if (abs(pct-lastPercent)>10){
-			Serial.printf("OTA Progress: %u%%/n", (pct));
+		if (abs(pct-lastPercent)>=10){
+			Serial.printf("OTA Progress: %u%%\n", (pct));
 			lastPercent = pct;}
 	  });
 	  ArduinoOTA.onError([](ota_error_t error) {
-		Serial.printf("OTA Error[%u]: ", error);
+		Serial.printf(" !!!OTA Error[%u]: ", error);
 		if (error == OTA_AUTH_ERROR) Serial.println("OTA Auth Failed");
 		else if (error == OTA_BEGIN_ERROR) Serial.println("OTA Begin Failed");
 		else if (error == OTA_CONNECT_ERROR) Serial.println("OTA Connect Failed");

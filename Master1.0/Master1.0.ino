@@ -28,6 +28,7 @@ ESP8266WebServer server(80); //Server on port 80
 
 #include "IO.h"
 #include "OTAsetup.h"
+#include "DebugPage.h"
 #include "Analog.h"
 #include "MainPage.h"
 //#include "index.h"
@@ -52,11 +53,11 @@ void handleIOPage() {
  server.send(200, "text/html", s); //Send web page
 }
 
-//void handleAuxPage() {
-////	Serial.println("** handleAux ***");
-// String s = AUX1_page; //Read HTML contents
-// server.send(200, "text/html", s); //Send web page
-//}
+void handleDebugPage() {
+//	Serial.println("** handleAux ***");
+ String s = DEBUG_page; //Read HTML contents
+ server.send(200, "text/html", s); //Send web page
+}
 
 /* send voltage strings according to (from the client code):
 	{"ADCValuePwr", "ADCValueChdN", "ADCValueChgngP", "ADCValueChgngN", "ADCValueUV", "ADCValueUnused"..
@@ -64,12 +65,6 @@ void handleIOPage() {
 	 "ChargedLED","ChargingLED","UnderVLED"
 */
 
-void handleCommand()
-{
-	String i = server.arg("msg"); 
-	server.send(200, "text/plane", "xxx"+i); //Send ADC value only to client ajax request
-
-}
 //==============================================================
 //                  SETUP
 //==============================================================
@@ -105,11 +100,11 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());  //IP address assigned to your ESP
  
-  server.on("/", handleRoot);      //Which routine to handle at root location. This is display page
+  server.on("/", handleDebugPage);//handleRoot);      //Which routine to handle at root location. This is display page
   server.on("/gotoHome", handleRoot);      //Which routine to handle at root location. This is display page
-  //server.on("/gotoAux", handleAuxPage);      //Which routine to handle at root location. This is display page
+  server.on("/gotoDebug", handleDebugPage);      //Which routine to handle at root location. This is display page
   server.on("/readADC", handleADC);
-  server.on("/sendCommand", handleCommand);
+  server.on("/sendCommand", handleDebugCommand);
   SetupIOserverHandlers();
 
   server.begin();                  //Start server

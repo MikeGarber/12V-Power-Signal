@@ -1,4 +1,4 @@
-This is a scheme by which short slow msgs can be overlayed on a +12V line 
+This is a scheme by which short slow msgs can be overlayed on a DC Power line 
 to distributed devices.
 
 It is roughly based on a scheme outlined at 
@@ -7,31 +7,27 @@ http://www.kranenborg.org/ee/picaxe/SerialPower/V3.0/PicaxeSerialPowerNetwork_V3
 This is a single master, multislave arranement.
 
 The Master initiates any comm with the Msg (as bytes):
-	  0    1    2       3        4
-	<dst><src><func><sizeLsb><sizeMsb>[<data1><data2>]<crc>
-		<dst><src> = ASCII; suggest starting with (lower case) 'a'; master could be '~'
+	<dst><src><func>[<data1><data2>]<crc><terminator>
+		<dst><src> = ASCII; suggest startig with (lower case) 'a'; master could be '~'
 		<func> = Function.  Some universal functions are:
 				'?' - ACK if you're there (timeout, I guess, if you're not)
 				'1'	 - On
 				'0' - Off
-		<sizeLsb><sizeMsb> = ASCII size of data below.  '_''_' if none.    '_'=0x5f.
-					       = else 01 to 99
 		[<data1><data2>] = optional data as dictated by the <func>. 
 		<crc> = binary summations of all preceding ASCII chars
+		<terminator> = 0xff (hex)
 		
 After sending the Msg, the output line must be tri-stated (x uSec Delay?) to allow the 
 slave to transmit.  A timeout allows to recognize the slave as being offline.
 
 The Slave must Reply with (as bytes):
-	  0    1        2         3        4
-	<src><dst><returnStat><sizeLsb><sizeMsb>[<data1><data2>]<crc>
+	<src><dst><returnStat>[<data1><data2>]<crc><terminator>
 		<dst><src> - ASCII; suggest starting with (lower case) 'a'; master could be '~'
 		<returnStat> - Some universal functions are:
 				'!' - ACK.  Function executed
 				'x'	 -NAK.  (data info probably follows)
 							"NoFunct"
-		<sizeLsb><sizeMsb> = ASCII size of data below.  '_''_' if none.    '_'=0x5f.
-					       = else 01 to 99
 		[<data1><data2>] = optional data as dictated by the <func>. 
 		<crc> = binary summations of all preceding ASCII chars
+		<terminator> = 0xff (hex)
 		

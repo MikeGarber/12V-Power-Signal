@@ -21,5 +21,8 @@
     <ClInclude Include="__vm\.Master0.2b.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MasterSlaveComms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

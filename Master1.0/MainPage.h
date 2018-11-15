@@ -72,30 +72,10 @@ const char MAINpage[] PROGMEM = R"=====(
     <span id="UnderVLED">UnderVoltage</span>
   </div>
 </div>
-<br><br>
-Master Command: <input type="text" id="Command">
-<input type="button" onclick="sendCommand()" value="Send"><br>
-Slave Response:  <input type="text" id="Response">
 <br>
 <button onclick="location.href = '/gotoIO';" class="float-left submit-button" >IO</button>
-
-
+<button onclick="location.href = '/gotoDebug';" class="float-left submit-button" >Debug</button>
 <script>
-function sendCommand(){
-	var txt = document.getElementById("Command").value;
-
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-	  var resp = this.responseText;
-	  document.getElementById("Response").value = resp;
-	}
-  };
-  xhttp.open("GET", "sendCommand?msg="+txt, true);
-  xhttp.send();
-}
-
-
 setInterval(function() {
   // Call a function repetatively with 2 Second interval
   getData();

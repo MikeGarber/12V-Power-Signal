@@ -1,25 +1,9 @@
 #include <SoftwareSerial.h>
-#define RPIN 0
-#define TPIN 5	//2 is LED_BUILTIN
-#define DBUG_PIN 4
 
-/*typedef */enum BussState {ePower, eListen} state;
-
-void TPinMode() //TRUE
-{
-	if (state==ePower){
-		pinMode(TPIN, OUTPUT);
-		digitalWrite(TPIN, HIGH);
-	}
-	else
-		pinMode(TPIN, INPUT);
-}
-SoftwareSerial  * mySerial;
-const char myID='~';
 char func = '1';
 char  slaveID='b';
 
-#include "pSSerial.h"
+#include "MasterSlaveComms.h"
 #include <HandleSerialParams.h>
 HandleSerialParams paramHandlr(6);
 
@@ -29,8 +13,7 @@ void setup() {
 	delay(10);
 	Serial.println("\nMaster0.2b");
 
-	mySerial = new SoftwareSerial(RPIN, TPIN, true, false, true);
-	mySerial->begin(SOFTWAREBAUD);		// set the data rate for the SoftwareSerial port
+	setupMasterSlaveComms(true); //master
 
 	pinMode(DBUG_PIN, OUTPUT);
 	pinMode(LED_BUILTIN, OUTPUT);
@@ -42,20 +25,19 @@ void setup() {
 
 
 #define WAITFORRESPONSE 20 //ms
-#define REPEATTIME 1000 //ms
+#define REPEATTIME 50 //ms
 void loop() {
 	delay(1);
 	paramHandlr.CheckAndHandleSerial();
 	enumPacktConditition res = HandleSSerial();
 	if (res == eForMeGood)		//reply!
 	{
-		delay(5);
-		state = ePower; TPinMode();		//back to being a power source
+		masterTPinMode(ePower);		//back to being a power source
 	}
 
 	if (millis() >= TxTimeoutStarttime + WAITFORRESPONSE)
 	{
-		state = ePower; TPinMode();		//back to being a power source
+		masterTPinMode(ePower);		//back to being a power source
 	}
 	if (millis() >= TxTimeoutStarttime + REPEATTIME)
 	{
@@ -71,8 +53,7 @@ void loop() {
 
 			digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 			digitalWrite(DBUG_PIN, !digitalRead(DBUG_PIN));
-			delay(1);
-			state = eListen; TPinMode();		//back to being a power source
+			masterTPinMode(eListen);		//back to being a power source
 		}
 	}
 }

@@ -263,7 +263,9 @@ function getData() {
 
 </div>
 <br><br>
-<p><button onclick="location.href = '/';" class="float-left submit-button" >Home</button></p>
+<p><button onclick="location.href = '/gotoHome';" class="float-left submit-button" >Home</button> 
+<button onclick="location.href = '/gotoDebug';" class="float-left submit-button" >Debug</button>
+
 </div>
 </script>
 </body>

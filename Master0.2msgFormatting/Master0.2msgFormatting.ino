@@ -42,23 +42,14 @@ void loop() {
 		}
 	}
 	if (stat)
-	{	short chksm=0;
+	{
+		short chksm=0;
 		String msg;
 		int i;
 		Serial.print("/************* ENCODE *************/");
 		for (i = 0; i < receivedHCharsSize; i++)
 		{	
-			switch (i) {
-				case 3: // time to figure out data length
-					{int len=receivedHCharsSize-4; //dst/src/fnc/enddelim
-					Serial.printf("\nlen=%d (%c %c)", len, 0x30+(len / 10), 0x30+(len % 10));
-					addAsciiChar(0x30+(len / 10), &chksm, &msg);		//msb
-					addAsciiChar(0x30+(len % 10), &chksm, &msg);		//lsb
-					Serial.printf("\n"); /*Yes, fall thru*/}
-				default:
-//					Serial.printf("i=%d   ", i);
-					addAsciiChar(receivedHChars[i], &chksm, &msg);
-			}
+			addAsciiChar(receivedHChars[i], &chksm, &msg);
 		}
 		chksm %=100;
 		addAsciiChar(0x30+(chksm / 10), NULL, &msg);
@@ -66,17 +57,14 @@ void loop() {
 
 		Serial.print("/************* DECODE *************/\n");
 		const char * chars = msg.c_str();
-		int incommingDataLen=0;
 		int calcedChksm=0;
-		int dataLen =0;
-
-		int sentDataLen = String(chars[3]).toInt()*10 + String(chars[4]).toInt();
-		Serial.printf("sentDataLen=%d ... expected len=%d\n", sentDataLen, msg.length()-(3/*s/d/f*/+2/*len*/+2/*cksm*/));
-		for (i = 0; i < msg.length()-2; i++)
+		for (int i=0; i<msg.length()-2; i++)
 		{
 			calcedChksm += chars[i];
 		}
-		int receivedChksm = String(chars[i]).toInt()*10 + String(chars[i+1]).toInt();
+		Serial.printf("last 2 chars (i=%d) are %d %d \n", i, chars[i], chars[i+1]);
+		int receivedChksm = String(chars[i-1]).toInt()*10 + String(chars[i]).toInt();
+		Serial.printf("apparant DataLen=%d, checksum is %s \n", msg.length()-(3/*s/d/f*/+2/*cksm*/), calcedChksm%100==receivedChksm? "OK" : "NOTOK");
 		Serial.printf("sent chksm=%d .... rcvd chksm=%d .... calc'd chksm=%d\n", chksm, receivedChksm, calcedChksm);
 	}
 }
