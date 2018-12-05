@@ -24,6 +24,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master1.0", "Master1.0\Mast
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master0.2msgFormatting", "Master0.2msgFormatting\Master0.2msgFormatting.vcxproj", "{2114F1AA-CF8C-4B66-9B07-C28490611246}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Slave_MrBlinky", "Slave_MrBlinky\Slave_MrBlinky.vcxproj", "{A44201F7-B077-48F5-9AFD-76F6895B315D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Master1.1", "Master1.1\Master1.1.vcxproj", "{F6D30483-AA19-48E7-BC4A-8391023844A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -62,6 +66,14 @@ Global
 		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Debug|x86.Build.0 = Debug|Win32
 		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Release|x86.ActiveCfg = Release|Win32
 		{2114F1AA-CF8C-4B66-9B07-C28490611246}.Release|x86.Build.0 = Release|Win32
+		{A44201F7-B077-48F5-9AFD-76F6895B315D}.Debug|x86.ActiveCfg = Debug|Win32
+		{A44201F7-B077-48F5-9AFD-76F6895B315D}.Debug|x86.Build.0 = Debug|Win32
+		{A44201F7-B077-48F5-9AFD-76F6895B315D}.Release|x86.ActiveCfg = Release|Win32
+		{A44201F7-B077-48F5-9AFD-76F6895B315D}.Release|x86.Build.0 = Release|Win32
+		{F6D30483-AA19-48E7-BC4A-8391023844A8}.Debug|x86.ActiveCfg = Debug|Win32
+		{F6D30483-AA19-48E7-BC4A-8391023844A8}.Debug|x86.Build.0 = Debug|Win32
+		{F6D30483-AA19-48E7-BC4A-8391023844A8}.Release|x86.ActiveCfg = Release|Win32
+		{F6D30483-AA19-48E7-BC4A-8391023844A8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

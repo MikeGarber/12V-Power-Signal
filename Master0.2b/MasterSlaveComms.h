@@ -36,10 +36,13 @@ char myID='~';
 void setupMasterSlaveComms(bool master)
 {
 	if (master)
+	{
+		myID='~';
 		mySerial = new SoftwareSerial(RPIN, TPIN, true, false, true);
+	}
 	else
 	{
-		myID='b';
+		myID='a';
 		mySerial = new SoftwareSerial(RPIN, TPIN, true/*inverseRx*/, true/*inverseTx*/, true/*pullup*/);
 	}
 	mySerial->begin(SOFTWAREBAUD);		// set the data rate for the SoftwareSerial port
@@ -72,7 +75,7 @@ enumPacktConditition verifyPacket(char* receivedSChars, int len)
 		calcedChksm += receivedSChars[i];
 	}
 	if (calcedChksm%100 != String(receivedSChars[i]).toInt()*10 + String(receivedSChars[i+1]).toInt())
-	{	Serial.print("  -i,len, calcedChksm=");Serial.print(i);Serial.print(",");Serial.print(len);Serial.print(",");Serial.print(calcedChksm);Serial.print("-  ");
+	{	Serial.print("  -i,len, calcedChksm=");Serial.print(i);Serial.print(",");Serial.print(len);Serial.print(",");Serial.println(calcedChksm);
 		return eBadChecksum;
 	}
 	if (receivedSChars[0] == myID)
@@ -82,24 +85,28 @@ enumPacktConditition verifyPacket(char* receivedSChars, int len)
 
 unsigned long TxTimeoutStarttime=0;
 unsigned long RxTimeoutStarttime=0;
-unsigned long delta=10;
+#define RXTIMEOUTDELTA (unsigned long)30
 enumPacktConditition HandleSSerial()	
 {
-	static unsigned short curDataSize=0;
-	static char lowByteOfASCIIsize = 0;
-	bool dst = false;
 	static byte ndx = 0;
+	bool firstTime = true;
+	bool started = false;
 	while (mySerial->available() > 0) {
+		started = true;
+		unsigned long now = millis();
+		if (firstTime) 
+		{firstTime=false; 
+///		Serial.print("**IN(");Serial.print(now);Serial.print(") ");
+		}
 		char rc = mySerial->read();
 		if (rc==0)
-			{//Serial.print("null, ndx="); Serial.println(ndx);
+			{Serial.print("null, ndx="); Serial.println(ndx);
 			continue;}
-/**/	if (rc<0x20 || rc> 0x7f) {Serial.print("(");Serial.print(rc, HEX);Serial.print(")"); }
-/**/		else Serial.print(rc);
-		unsigned long now = millis();
-		if ((RxTimeoutStarttime + delta < now) && ndx)
+///	if (rc<0x20 || rc> 0x7f) {Serial.print("[");Serial.print(rc, HEX);Serial.print("]"); }
+///		else Serial.print(rc);
+		if ((RxTimeoutStarttime + RXTIMEOUTDELTA < now) && ndx)
 		{
-			Serial.print("    TIMEMOUT! delt="); Serial.print(millis()-RxTimeoutStarttime); Serial.print("  ndx="); Serial.println(ndx);
+			Serial.print("(");Serial.print(now); Serial.print(")  RxTIMEMOUT! delt="); Serial.print(millis()-RxTimeoutStarttime); Serial.print("  ndx="); Serial.println(ndx);
 			ndx = 0;	//its been awhile....
 		}
 		RxTimeoutStarttime = now;		//hold off any timeout or further transmissions
@@ -111,10 +118,12 @@ enumPacktConditition HandleSSerial()
 			receivedSChars[ndx] = 0;	//null termination, if anybody cares (LIKE BELOW)
 			enumPacktConditition stat = verifyPacket(receivedSChars, ndx);//dont include 
 			ndx = 0;
+		///	Serial.println("**OUTDONE");
 			return stat;
 		}
 		receivedSChars[ndx++]=rc;
 	}
+///	if (started) Serial.println("**OUT");
 	return eNone;
 }
 
@@ -138,11 +147,11 @@ void setDataAndCheckSumAndTerminator(char * xmitBuf, char * data, byte dataLen)
 	xmitBuf[4+dataLen]=0x30+(chksm % 10);
 	xmitBuf[5+dataLen]=TERMINATOR_CHAR;
 	xmitBuf[6+dataLen]=0;
-//	Serial.print(" -dataLen, calcedChksm=");Serial.print(dataLen);Serial.print(" ");Serial.print(chksm);Serial.print("- ");
 }
 
 void sendReply(char retStat, char* data, byte dataLen)
 {
+	delay(1);
 	char * xmitBuf = new char[dataLen+6];
 	xmitBuf[0] = receivedSChars[1];	//swap src and dest
 	xmitBuf[1] = receivedSChars[0];	//swap src and dest
@@ -155,7 +164,7 @@ void sendReply(char retStat, char* data, byte dataLen)
 	delete xmitBuf;
 }
 
-
+bool cmdSentWaitingForReply=false;
 void SendCmd(char targID, char fnc, char* data, byte dataLen)
 {
 	digitalWrite(DBUG_PIN, HIGH);
@@ -164,7 +173,7 @@ void SendCmd(char targID, char fnc, char* data, byte dataLen)
 	xmitBuf[1] = myID;
 	xmitBuf[2] = fnc;
 	setDataAndCheckSumAndTerminator(xmitBuf, data, dataLen);
-	Serial.print("SendCmd - ");		Serial.println(xmitBuf); 
+//	Serial.print("SendCmd - ");		Serial.println(xmitBuf); 
 	mySerial->stopListening();
 	noInterrupts();
 	mySerial->write(xmitBuf);
@@ -172,6 +181,7 @@ void SendCmd(char targID, char fnc, char* data, byte dataLen)
 	TxTimeoutStarttime=millis();			//start timing after end/done
 	digitalWrite(DBUG_PIN, LOW);
 	mySerial->listen();
+	cmdSentWaitingForReply = true;
 	delete xmitBuf;
 }
 

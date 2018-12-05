@@ -5,15 +5,15 @@
 			all non-arduino files created by visual micro and all visual studio project or solution files can be freely deleted and are not required to compile a sketch (do not delete your own code!).
 			note: debugger breakpoints are stored in '.sln' or '.asln' files, knowledge of last uploaded breakpoints is stored in the upload.vmps.xml file. Both files are required to continue a previous debug session without needing to compile and upload again
 	
-	Hardware: NodeMCU 1.0 (ESP-12E Module), Platform=esp8266, Package=esp8266
+	Hardware: Arduino Pro or Pro Mini w/ ATmega328P (5V, 16 MHz), Platform=avr, Package=arduino
 */
 
 #if defined(_VMICRO_INTELLISENSE)
 
 #ifndef _VSARDUINO_H_
 #define _VSARDUINO_H_
-#define __ESP8266_ESp8266__
-#define __ESP8266_ESP8266__
+#define __AVR_ATmega328p__
+#define __AVR_ATmega328P__
 #define F_CPU 16000000L
 #define ARDUINO 10806
 #define ARDUINO_AVR_PRO
@@ -75,6 +75,6 @@ typedef void *__builtin_va_list;
 #define pgm_read_float(address_short) float()
 #define pgm_read_ptr(address_short)   short()
 
-#include "Master0.2msgFormatting.ino"
+#include "Slave_MrBlinky.ino"
 #endif
 #endif
